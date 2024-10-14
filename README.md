@@ -1,6 +1,6 @@
 # Script to Remove Censorship and Create a Favorite Anime List on Anistar Without an Account
 
-1. Download the browser extension [**Resource Override**](https://chrome.google.com/webstore/detail/resource-override/hldcpdgpfhkinjakkgjcfklaandpfphn) (this is necessary to inject our code/script).
+1. Download the browser extension [**Resource Override**](https://chromewebstore.google.com/detail/resource-override/pkoacgokdfckfpndoffpifphamojphii?hl=en) (this is necessary to inject our code/script).
 
 2. In the **"Tab URL:"** field, enter `https://anistar.org/*`, then click **"Add Rule"** and **"Inject File"**.
 
@@ -18,7 +18,7 @@
 
 # Скрипт для прибирання цензури та створення списку улюбленого аніме на Anistar без аккаунта
 
-1. Скачуємо розширення для браузера [**Resource Override**](https://chrome.google.com/webstore/detail/resource-override/hldcpdgpfhkinjakkgjcfklaandpfphn) (воно необхідне для інжекту нашого коду/скрипта).
+1. Скачуємо розширення для браузера [**Resource Override**](https://chromewebstore.google.com/detail/resource-override/pkoacgokdfckfpndoffpifphamojphii?hl=en) (воно необхідне для інжекту нашого коду/скрипта).
 2. У полі **"Tab URL:"** вводимо `https://anistar.org/*` і натискаємо **"Add Rule"** та **"Inject File"**.
 
 3. Поле **"From"** та **"To"** ми не змінюємо.
