@@ -8,7 +8,7 @@
 
 4. In the **"Name:"** field, enter anything. For **"File type:"**, select **"JS"**, and for **"Inject into:"**, select **"Head"** (though it doesn’t really matter).
 
-5. Click **"Edit file"** and paste the code from the `script.js` file.
+5. Click **"Edit file"** and paste the code from the `anistar.js` file.
 
 6. Ensure all the toggles are switched to **"On"**.
 
@@ -25,7 +25,7 @@
 
 4. У полі **"Name:"** можна ввести будь-що. Тип файлу **"File type:"** - вибираємо **"JS"**, інжектувати в **"Inject into:"** - **"Head"** (але це не має значення).
 
-5. Натискаємо **"Edit file"** та вставляємо код з файлу `script.js`.
+5. Натискаємо **"Edit file"** та вставляємо код з файлу `anistar.js`.
 
 6. Усі перемикачі повинні бути в положенні **"On"**.
 
