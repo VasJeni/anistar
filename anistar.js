@@ -1,34 +1,35 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM повністю завантажений');
+    console.log('DOM fully loaded');
 
-    // Знайдемо всі елементи з класом title_left
+    // Find all elements with the class 'title_left'
     const titles = document.querySelectorAll('.title_left');
 
+    // Get all elements with the class 'main-img' and remove the 'filter' style
     const coversCollection = document.getElementsByClassName('main-img');
     const covers = Array.from(coversCollection);
     console.log(covers);
     covers.forEach((e) => { e.style.removeProperty('filter') });
 
-    // Створюємо <ul> елемент
+    // Create <ul> element with specific styling
     const ul = document.createElement('ul');
-    ul.classList.add('positioned-list'); // Додаємо клас для стилізації
+    ul.classList.add('positioned-list'); // Add class for styling
+    Object.assign(ul.style, {
+        position: 'fixed',
+        top: '50px',
+        right: '50px',
+        borderRadius: '5px',
+        listStyleType: 'none',
+        padding: '1rem',
+        backgroundColor: 'white',
+        zIndex: 1000,
+        outline: 'solid 1px grey',
+        boxShadow: '10px 5px 5px grey',
+    });
 
-    // Додаємо стилі для списку через JS
-    ul.style.position = 'fixed';
-    ul.style.top = '50px';
-    ul.style.right = '50px';
-    ul.style.borderRadius = '5px';
-    ul.style.listStyleType = 'none';
-    ul.style.padding = '1rem';
-    ul.style.backgroundColor = 'white';
-    ul.style.zIndex = 1000;
-    ul.style.outline = 'solid 1px grey';
-    ul.style.boxShadow = '10px 5px 5px grey';
-
-    // Додаємо <ul> на сторінку
+    // Add <ul> to the page
     document.body.appendChild(ul);
 
-    // Функція для відображення списку з localStorage
+    // Function to render the list from localStorage
     function renderListFromStorage() {
         const storedLinks = JSON.parse(localStorage.getItem('links')) || [];
         storedLinks.forEach(({ href, text, imageUrl }) => {
@@ -38,21 +39,24 @@ document.addEventListener('DOMContentLoaded', function() {
             a.textContent = text; 
             li.appendChild(a);
 
+            // Create an image popup on hover
             const imagePopup = document.createElement('div');
-            imagePopup.style.position = 'absolute';
-            imagePopup.style.display = 'none';
-            imagePopup.style.border = '1px solid black';
-            imagePopup.style.backgroundColor = 'white';
-            imagePopup.style.padding = '10px';
-            imagePopup.style.zIndex = 1000;
+            Object.assign(imagePopup.style, {
+                position: 'absolute',
+                display: 'none',
+                border: '1px solid black',
+                backgroundColor: 'white',
+                padding: '10px',
+                zIndex: 1000,
+            });
 
             const image = document.createElement('img');
             image.src = imageUrl;
             image.style.maxWidth = '150px';
             imagePopup.appendChild(image);
-
             document.body.appendChild(imagePopup);
 
+            // Show and hide the image popup on hover
             a.addEventListener('mouseover', function(event) {
                 imagePopup.style.display = 'block';
                 imagePopup.style.top = `${event.pageY + 10}px`;
@@ -63,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 imagePopup.style.display = 'none';
             });
 
+            // Create and append remove button for each list item
             const removeButton = document.createElement('button');
             removeButton.textContent = '−';
             removeButton.style.marginLeft = '10px';
@@ -80,73 +85,82 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Функція для додавання посилання до localStorage
+    // Function to add a link to localStorage
     function addToStorage(href, text, imageUrl) {
         const storedLinks = JSON.parse(localStorage.getItem('links')) || [];
         storedLinks.push({ href, text, imageUrl });
         localStorage.setItem('links', JSON.stringify(storedLinks));
     }
 
-    // Функція для видалення посилання з localStorage
+    // Function to remove a link from localStorage
     function removeFromStorage(href) {
         const storedLinks = JSON.parse(localStorage.getItem('links')) || [];
         const updatedLinks = storedLinks.filter(link => link.href !== href);
         localStorage.setItem('links', JSON.stringify(updatedLinks));
     }
 
-    // Відображення посилань з localStorage при завантаженні
+    // Display links from localStorage when the page loads
     renderListFromStorage();
 
+    // Add button to each title for adding to the list
     titles.forEach(title => {
         const addButton = document.createElement('button');
-        addButton.textContent = 'Додати в список';
-        addButton.style.marginBottom = '16px';
-        addButton.style.color = 'white';
-        addButton.style.backgroundColor = '#4a0074';
-        addButton.style.padding = '8px';
-        addButton.style.border = 'none';
-        addButton.style.fontWeight = 'bold';
-        addButton.style.fontSize = '1rem';
-        addButton.style.fontFamily = "Roboto Condensed', sans-serif";
-        addButton.style.outline = 'solid 1px grey';
-        addButton.style.boxShadow = '10px 5px 5px grey';
-        addButton.style.borderRadius = '10px';
-        addButton.style.cursor = 'pointer';
+        addButton.textContent = 'Add to list';
+        Object.assign(addButton.style, {
+            marginBottom: '16px',
+            color: 'white',
+            backgroundColor: '#4a0074',
+            padding: '8px',
+            border: 'none',
+            fontWeight: 'bold',
+            fontSize: '1rem',
+            fontFamily: "'Roboto Condensed', sans-serif",
+            outline: 'solid 1px grey',
+            boxShadow: '10px 5px 5px grey',
+            borderRadius: '10px',
+            cursor: 'pointer',
+        });
 
+        // On button click, add the link to the list and localStorage
         addButton.addEventListener('click', function() {
             const link = title.querySelector('a').href;
             const linkText = title.querySelector('a').textContent;
 
-            // Отримуємо зображення з найближчого елемента з класом .main-img
+            // Get the image from the closest element with class 'main-img'
             const parentDiv = title.closest('.news');
             const imageElement = parentDiv.querySelector('img.main-img');
-            const imageUrl = imageElement ? imageElement.src : ''; // Отримуємо src зображення
+            const imageUrl = imageElement ? imageElement.src : ''; 
 
+            // Trim text before adding it to the list
             const delimiter = '/';
             const index = linkText.indexOf(delimiter);
             const trimmedText = index !== -1 ? linkText.substring(0, index).trim() : linkText.trim();
 
+            // Create and append a new list item
             const li = document.createElement('li');
             const a = document.createElement('a');
             a.href = link;
             a.textContent = trimmedText;
             li.appendChild(a);
 
+            // Create an image popup for hover effect
             const imagePopup = document.createElement('div');
-            imagePopup.style.position = 'absolute';
-            imagePopup.style.display = 'none';
-            imagePopup.style.border = '1px solid black';
-            imagePopup.style.backgroundColor = 'white';
-            imagePopup.style.padding = '10px';
-            imagePopup.style.zIndex = 1000;
+            Object.assign(imagePopup.style, {
+                position: 'absolute',
+                display: 'none',
+                border: '1px solid black',
+                backgroundColor: 'white',
+                padding: '10px',
+                zIndex: 1000,
+            });
 
             const image = document.createElement('img');
             image.src = imageUrl;
             image.style.maxWidth = '150px';
             imagePopup.appendChild(image);
-
             document.body.appendChild(imagePopup);
 
+            // Display and hide the popup on hover
             a.addEventListener('mouseover', function(event) {
                 imagePopup.style.display = 'block';
                 imagePopup.style.top = `${event.pageY + 10}px`;
@@ -157,6 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 imagePopup.style.display = 'none';
             });
 
+            // Add a remove button for each list item
             const removeButton = document.createElement('button');
             removeButton.textContent = '−';
             removeButton.style.marginLeft = '10px';
@@ -172,37 +187,38 @@ document.addEventListener('DOMContentLoaded', function() {
             a.style.color = 'blue';
             ul.appendChild(li);
 
+            // Add the link and image to localStorage
             addToStorage(link, trimmedText, imageUrl);
         });
 
         title.appendChild(addButton);
     });
 
+    // Create a toggle button to show/hide the list
     const toggleButton = document.createElement('button');
-    toggleButton.textContent = 'Згорнути/Розгорнути список';
-    toggleButton.style.position = 'fixed';
-    toggleButton.style.top = '20px';
-    toggleButton.style.right = '50px';
-    toggleButton.style.backgroundColor = '#4a0074';
-    toggleButton.style.borderRadius = '10px';
-    toggleButton.style.padding = '8px';
-    toggleButton.style.color = 'white';
-    toggleButton.style.border = 'none';
-    toggleButton.style.fontWeight = 'bold';
-    toggleButton.style.fontSize = '1rem';
-    toggleButton.style.fontFamily = "Roboto Condensed', sans-serif";
-    toggleButton.style.outline = 'solid 1px grey';
-    toggleButton.style.boxShadow = '10px 5px 5px grey';
-    toggleButton.style.zIndex = 1000;
-    toggleButton.style.cursor = 'pointer';
+    toggleButton.textContent = 'Toggle list';
+    Object.assign(toggleButton.style, {
+        position: 'fixed',
+        top: '20px',
+        right: '50px',
+        backgroundColor: '#4a0074',
+        borderRadius: '10px',
+        padding: '8px',
+        colour: 'white',
+        border: 'none',
+        fontWeight: 'bold',
+        fontSize: '1rem',
+        fontFamily: "'Roboto Condensed', sans-serif",
+        outline: 'solid 1px grey',
+        boxShadow: '10px 5px 5px grey',
+        zIndex: 1000,
+        cursor: 'pointer',
+    });
 
     document.body.appendChild(toggleButton);
 
+    // Toggle the visibility of the list
     toggleButton.addEventListener('click', function() {
-        if (ul.style.display === 'none') {
-            ul.style.display = 'block';
-        } else {
-            ul.style.display = 'none';
-        }
+        ul.style.display = (ul.style.display === 'none') ? 'block' : 'none';
     });
 });
